@@ -7,18 +7,22 @@ const btnStore=createSlice({
     name:"btn",
     initialState:{
         pause:false,
+        showChatbot:false
     },
     reducers:{
     setPause(state,action){
         state.pause=action.payload
-    } 
+    } ,
+    setShowChatbot(state,action){
+        state.showChatbot=action.payload
+    }
     }
 })
 
-const {setPause}=btnStore.actions
+const {setPause,setShowChatbot}=btnStore.actions
 
 const btnReducer =btnStore.reducer
 
-export {setPause}
+export {setPause,setShowChatbot}
 
 export default btnReducer
