@@ -59,7 +59,8 @@ const fetchLogin=(loginForm)=>{
         try {
             const res =await loginAPI(loginForm)
             if(res.data.code==='0000'){
-                dispatch(setToken(res.data.data))
+                dispatch(setToken(res.data.data.token))
+                dispatch(setUserInfo(res.data.data.user))
                 return {
                     isLogin:true,
                     msg:res.data.msg

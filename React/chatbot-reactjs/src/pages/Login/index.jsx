@@ -2,14 +2,13 @@ import { Input, Form, Button, message } from "antd"
 import { useNavigate } from "react-router-dom"
 import { fetchLogin } from "../../store/modules/user"
 import { useDispatch } from "react-redux"
-
+import './index.css'
 const Login = () => {
     const dispatch =useDispatch()
     const navigate =useNavigate()
    const onFinish=async (values)=>{
     console.log(values)
         const {isLogin,msg}=await dispatch(fetchLogin(values))
-
         if(isLogin){
         message.success(msg)
         setTimeout(() => {

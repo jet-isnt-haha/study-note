@@ -12,7 +12,11 @@ const ChatLogout=()=>{
           if(isLogout){
             message.success(msg)
             setTimeout(()=>{
-              navigate('/login')
+              navigate('/login').then(
+                ()=>{
+                  window.location.reload()
+                }
+              )
             },500)
           }else{
             message.error(msg)

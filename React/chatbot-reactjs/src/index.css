@@ -108,27 +108,6 @@ body{
   background: #6D4FC2;
 }
 
-.chat-header .chat-info{
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.chat-info svg{
-  height: 35px;
-  width: 35px;
-  padding: 6px;
-  flex-shrink:0;
-  fill: #6D4FC2;
-  background: #fff;
-  border-radius: 50%;
-}
-
-.chat-info .logo-text{
-  color:#fff;
-  font-size: 1.31rem;
-  font-weight: 600;
-}
 
 .chat-header button{
   height: 40px;
@@ -276,7 +255,6 @@ body{
   display: block;
 }
 
-
 /* 移动端界面样式适应 */
 
 @media (max-width:520px){
@@ -291,6 +269,7 @@ body{
     height: 100%;
     border-radius: 0;
     width: 100%;
+
   }
 
   .chatbot-popup .chat-header{
@@ -298,7 +277,7 @@ body{
   }
 
   .chat-body{
-    height: calc(90%-55px);
+    height: 75%;
     padding: 25px 15px;
   }
 

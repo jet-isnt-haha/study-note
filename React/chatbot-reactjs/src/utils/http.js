@@ -27,7 +27,7 @@ http.interceptors.request.use((config)=>{
 
 //添加响应拦截器
 http.interceptors.response.use((response)=>{
-    console.log(response.data)
+    // console.log(response.data)
     switch(response.data.code){
         //token出错删除token，跳回登录页面
         case '2003':{
