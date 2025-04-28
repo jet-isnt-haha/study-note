@@ -1517,7 +1517,7 @@ const { SourceMapConsumer, SourceNode } = require("source-map");
 
 Promise 是异步编程的一种解决方案，比传统的异步解决方案【回调函数】和【事件】更合理、更强大。
 
-
+Promise是ES6新增的语法，是一种异步编程的一种解决方案，Promise本质上是一个绑定了回调的对象。 Promise在一定程度上解决了回调函数的书写结构问题，解决了回调地狱的问题。Promise可以看作是一个状态机，它有三种状态：pending，fulfilled，rejected，其中初始状态是pending，可以通过函数resolve（表示成功）把状态变为fulfilled，或者通过函数reject（表示失败）把状态变为rejected，状态一经改变就不能再次变化。
 
 
 
