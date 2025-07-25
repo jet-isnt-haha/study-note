@@ -1,15 +1,15 @@
 //借助构造函数实现继承
-function Animal(name){
+function Animal(name) {
     this.name = name;
-    this.getName = function(){
+    this.getName = function () {
         return this.name;
     }
 }
 /* Animal.prototype.getName = function(){
     return this.name;
 } */
-function Dog(name){
-    Animal.call(this,name);
+function Dog(name) {
+    Animal.call(this, name);
 }
 
 Dog.prototype = new Animal();
@@ -24,8 +24,8 @@ Dog.prototype = new Animal();
 console.log(Dog.prototype);
 /* 
     还会创建一个没有赋值的多余的原型对象
-    //原因Dog.prototype = new Animal();
-    //并且至少会调用两次父类构造函数
+    * 原因Dog.prototype = new Animal();
+    * 并且至少会调用两次父类构造函数
     Dog.prototype = new Animal();
       Animal.call(this,name);
 */
