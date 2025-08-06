@@ -23,10 +23,15 @@ function debounceProMax(fn, wait, immediate) {
         let context = this;
         let args = arguments;
 
-        if (timeout) clearTimeout(timeout);
+        if (timeout) {
+            clearTimeout(timeout);
+            console.log('clearSuccess:', timeout);
+        }
         if (immediate) {
             let callNow = !timeout;
             console.log('Recalculate');
+            console.log('callNow:', callNow);
+            console.log('timer:', timeout);
             timeout = setTimeout(() => {
                 timeout = null; if (!callNow) fn.apply(context, args)
             }, wait);

@@ -2,15 +2,18 @@
 
 //简单版
 {
-    function throttle(fn, delay) {
+    function throttle(fn, wait) {
         let timer = null;
+
         return function () {
             let args = arguments;
+            let context = this;
+
             if (!timer) {
                 timer = setTimeout(() => {
+                    fn.apply(context, args);
                     timer = null;
-                    fn.apply(this, args);
-                }, delay);
+                }, wait);
             }
         }
     }
