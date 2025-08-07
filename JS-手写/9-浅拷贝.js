@@ -65,7 +65,7 @@ obj.person.name = 'jelly' // 改变原来的对象
 */
 
 
-// TODO 实现浅拷贝:遍历原对象  Object.assign、数组的slice和concate、数组静态方法 Array.from、扩张运算符
+// TODO 实现浅拷贝:遍历原对象  Object.assign、数组的slice和concate、数组静态方法 Array.from、扩展运算符
 
 //只考虑对象类型 
 //* 遍历原对象
