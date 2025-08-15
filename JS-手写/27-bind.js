@@ -27,7 +27,7 @@ Function.prototype.myBind = function (context) {
     }
     let self = this;//先获取函数
     // 处理 context 为 null/undefined 的情况
-    const ctx = context == null ? globalThis : Object(context)
+    const ctx = context == null ? globalThis : Object(context);
     const args = Array.from(arguments).slice(1);
 
     function fNOP() { }
