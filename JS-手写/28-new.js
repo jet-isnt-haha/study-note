@@ -30,3 +30,4 @@ function person(name, age) {
 let p1 = new Number();
 console.log(p);
 console.log(p1); */
+
