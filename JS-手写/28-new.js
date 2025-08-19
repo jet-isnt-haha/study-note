@@ -8,8 +8,8 @@
 */
 
 function myNew() {
-    let obj = new Object();
-    Constructor = [].shift.call(arguments);
+    const obj = {};
+    const Constructor = [].shift().call(arguments);
     obj.__proto__ = Constructor.prototype;
     let result = Constructor.apply(obj, arguments);
 

@@ -13,9 +13,10 @@ Object.myCreate = function (proto, propertyObject = undefined) {
 
     function F() { }
     F.prototype = proto;
+    const obj = new F();
     // 定义额外属性
     if (propertyObject !== undefined) {
         Object.defineProperties(obj, propertyObject);
     }
-    return new F();
+    return obj;
 }
