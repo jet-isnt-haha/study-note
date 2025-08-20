@@ -9,7 +9,7 @@
 
 function myNew() {
     const obj = {};
-    const Constructor = [].shift().call(arguments);
+    const Constructor = [].shift.call(arguments);
     obj.__proto__ = Constructor.prototype;
     let result = Constructor.apply(obj, arguments);
 
@@ -21,10 +21,10 @@ function person(name, age) {
     this.name = name
     this.age = age
 }
-// let p = myNew(person, 'jet', 20);
-// let p1 = new person('jelly', 19);
-// console.log(p);
-// console.log(p1);
+let p = myNew(person, 'jet', 20);
+let p1 = new person('jelly', 19);
+console.log(p);
+console.log(p1);
 
 /* let p = myNew(Number);
 let p1 = new Number();
