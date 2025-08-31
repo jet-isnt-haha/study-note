@@ -1,5 +1,6 @@
 //!   JSON.stringify([, replacer [, space]) ⽅法是将⼀个 JavaScript 值(对象或者数组)转换为⼀个 JSON，此处模拟实现不考虑第二个参数与第三个参数。
-
+//? replacer:如果该参数是一个函数，作为函数，它有两个参数，键（key）和值（value），则在序列化过程中，被序列化的值在每个属性都会经过该函数的转换和处理; 如果该参数是一个数组，则只有包含在这个数组中的属性名才会被序列化到最终的JSON字符串中，如果该参数为null或者未提供，则对象所有的属性都会被序列化。
+//? space:指定缩进用的空白字符串，用于美化输出。
 /* 
     ! basic structure
     * undefined -》 undefined（undefined）  boolean -》 false/true（string） 
