@@ -1,135 +1,98 @@
-
-const PENDING = 'pending';
-const FULFUILLED = 'fulfuilled';
-const REJECTED = 'rejected';
-
-
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
 class MyPromise {
-
     constructor(executor) {
+        this.onFulfilledCallbacks = [];
+        this.onRejectedCallbacks = [];
         this.status = PENDING;
-
         this.value = undefined;
-
-        this.reason - undefined;
-
-
-        //! 为了确保then方法的回调总是在状态确认后被调用执行而引入的参数
-        //! 将成功回调和失败回调存储起来
-        this.onFulfilledCallback = [];
-        this.onRejectedCallback = [];
-
+        this.reason = undefined;
         const resolve = (value) => {
-
-            //只有处于pending才能执行状态发生变化，不能二次变化
             if (this.status === PENDING) {
-                this.status = FULFUILLED;
+                this.status = FULFILLED;
                 this.value = value;
-
-                queueMicrotask(() => {
-                    this.onFulfilledCallback.forEach((fn) => fn());
-                });
-
+                queueMicrotask(() => this.onFulfilledCallbacks.forEach((fn) => fn()));
             }
         };
         const reject = (reason) => {
             if (this.status === PENDING) {
                 this.status = REJECTED;
                 this.reason = reason;
-
-                queueMicrotask(() => {
-                    this.onRejectedCallback.forEach((fn) => fn());
-                });
+                queueMicrotask(() => this.onRejectedCallbacks.forEach((fn) => fn()));
             }
         };
-        try {
-            executor(resolve, reject);
-        } catch (error) {
-            reject(error);
-        }
-
+        executor(resolve, reject);
     }
-
+    //编写then方法
     then(onFulfilled, onRejected) {
+
+
+        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (value) => value;
+        onRejected = typeof onRejected === 'function' ? onRejected : (reason) => { throw reason; };
+
         const promise2 = new MyPromise((resolve, reject) => {
+            const handleCallback = (callback, value, resolve, reject) => {
+                queueMicrotask(() => {
+                    try {
+                        const x = callback(value);
+                        resolvePromise(promise2, x, resolve, reject);
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            };
             if (this.status === FULFILLED) {
-                queueMicrotask(() => {
-                    try {
-                        const x = onFulfilled(this.value);
-                        if (x instanceof MyPromise) {
-                            x.then((promise_value) => {
-                                resolve(promise_value);
-                            });
-                        } else {
-                            resolve(x);
-                        }
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
+                handleCallback(onFulfilled, this.value, resolve, reject);
             } else if (this.status === REJECTED) {
-                queueMicrotask(() => {
-                    try {
-                        const x = onRejected(this.reason);
-                        if (x instanceof MyPromise) {
-                            x.then((promise_value) => {
-                                resolve(promise_value);
-                            });
-                        } else {
-                            resolve(x);
-                        }
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
+                handleCallback(onRejected, this.reason, resolve, reject);
             } else if (this.status === PENDING) {
-                this.onFulfilledCallbacks.push(() => {
-                    try {
-                        const x = onFulfilled(this.value);
-                        if (x instanceof MyPromise) {
-                            x.then((promise_value) => {
-                                resolve(promise_value);
-                            });
-                        } else {
-                            resolve(x);
-                        }
-                    } catch (error) {
-                        resolve(error);
-                    }
-                });
-                this.onRejectedCallbacks.push(() => {
-                    try {
-                        const x = onRejected(this.reason);
-                        if (x instanceof MyPromise) {
-                            x.then((promise_value) => {
-                                resolve(promise_value);
-                            });
-                        } else {
-                            resolve(x);
-                        }
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
+                this.onFulfilledCallbacks.push(() =>
+                    handleCallback(onFulfilled, this.value, resolve, reject)
+                );
+                this.onRejectedCallbacks.push(() =>
+                    handleCallback(onRejected, this.reason, resolve, reject)
+                );
             }
         });
         return promise2;
     }
 
 
+    catch(onRejected) {
+        return this.then(null, onRejected);
+    }
+
+    finally(onFinally) {
+        this.then(() => { onFinally(); }, () => { onFinally(); })
+    }
+
+    static resolve(value) {
+        if (value instanceof MyPromise) {
+            return value;
+        }
+
+        return new MyPromise(resolve => {
+            resolve(value);
+        });
+    }
+
+    static reject(reason) {
+        return new MyPromise((_, reject) => {
+            reject(reason);
+        })
+    }
 }
+// ==== 新增 ====
+function resolvePromise(promise2, x, resolve, reject) {
 
-const promise = new MyPromise((resolve, reject) => {
-    resolve("success");
-});
-promise
-    .then((value) => {
-        console.log(1);
-        console.log("resolve", value);
-        return 2;
-    })
-    .then((value) => {
-        console.log(3);
-        console.log("resolve", value);
-    });
-
+    if (x === promise2) {
+        return reject(new TypeError());
+    }
+    if (x instanceof MyPromise) {
+        x.then(resolve, reject)
+    } else {
+        resolve(x)
+    }
+}
+module.exports = MyPromise;
