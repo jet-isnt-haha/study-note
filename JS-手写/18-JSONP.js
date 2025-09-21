@@ -17,7 +17,14 @@ const jsonp = ({ url, params, callbackName }) => {
         document.body.appendChild(scriptEle);
         window[callbackName] = data => {
             resolve(data);
-            document.removeChild(scriptEle);
+            document.body.removeChild(scriptEle);
+            delete window[callbackName];
+        }
+
+        scriptEle.onerror = function () {
+            document.body.removeChild(scriptEle);
+            delete window[callbackName];
+            reject('sth error')
         }
 
     })

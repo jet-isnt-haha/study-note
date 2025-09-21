@@ -1,25 +1,30 @@
-let imgList = [...document.querySelectorAll('img')];
+let imgList = [...document.querySelectorAll('img[data-src]')];
 let length = imgList.length;
 
-const imgLazyLoad = function () {
-    let count = 0;
-
-    return (function () {
-        let deleteIndexList = [];
-        imgList.forEach((img, index) => {
-            let rec = img.getBoundingClientRect();
-            if (rec.top < window.innerHeight) {
-                img.src = img.dataset.src;
-                deleteIndexList.push(index);
-                count++;
-                if (count === length) {
-                    document.removeEventListener('scroll', imgLazyLoad);
+const imgLazyLoad = () => {
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    console.log('开始加载');
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.onload = () => {
+                        console.log('加载完成');
+                        img.removeAttribute('data-src')
+                    }
+                    img.onerror = () => {
+                        console.log('加载失败');
+                    };
+                    observer.unobserve(img);
                 }
-            }
-        })
-        imgList = imgList.filter((img, index) => !deleteIndexList.includes(index))
-    })()
-
+            })
+        }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    }
+    )
+    imgList.forEach(img => {
+        observer.observe(img);
+    })
 }
-
-document.addEventListener('scroll', imgLazyLoad);
