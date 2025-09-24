@@ -1,6 +1,5 @@
 Function.prototype.myApply = function (context, arr) {
     context = context || globalThis;
-
     context.fn = this;
 
     let result;
@@ -9,7 +8,7 @@ Function.prototype.myApply = function (context, arr) {
     } else {
 
         const args = [];
-        for (let i = 1, len = arr.length; i < len; ++i) {
+        for (let i = 0, len = arr.length; i < len; ++i) {
             args.push(`arr[${i}]`);
         }
 
