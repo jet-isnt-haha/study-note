@@ -26,3 +26,35 @@ var lengthOfLongestSubstring = function (s) {
     return length;
 
 };
+
+
+{
+
+    /**
+ * @param {string} s
+ * @return {number}
+ */
+    var lengthOfLongestSubstring = function (s) {
+        let map = new Map();
+        let max = 0;
+        let slow = 0;
+        let fast = -1;
+        for (const str of s) {
+            map.set(str, map.has(str) ? map.get(str) + 1 : 1);
+            ++fast;
+
+            while (slow < fast) {
+                if (map.get(s[fast]) > 1) {
+                    map.set(s[slow], map.get(s[slow]) - 1);
+                    slow++;
+
+                } else {
+                    break;
+                }
+            }
+            max = Math.max(max, fast - slow + 1);
+        }
+        return max;
+    };
+
+}
