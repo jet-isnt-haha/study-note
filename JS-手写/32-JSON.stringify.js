@@ -51,7 +51,7 @@ function myJSONstringify(data) {
                 if (typeof item === 'function' || typeof item === 'undefined' || typeof item === 'symbol') {
                     result[index] = "null";
                 } else {
-                    return result[index] = myJSONstringify(item);
+                    result[index] = myJSONstringify(item);
                 }
             })
 
