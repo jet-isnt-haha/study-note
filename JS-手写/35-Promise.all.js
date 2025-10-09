@@ -19,7 +19,7 @@ Promise.all = function (promiseArr) {
 Promise.all = function (promiseArr) {
     let index = 0, result = [];
     return new Promise((resolve, reject) => {
-        promiseArr.forEach((value, _index) => {
+        promiseArr.forEach((p, _index) => {
             Promise.resolve(p).then((value) => {
                 index++;
                 result[_index] = value;
